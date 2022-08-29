@@ -7,7 +7,6 @@
   , "control"
   , "foldable-traversable"
   , "free"
-  , "lists"
   , "maybe"
   , "prelude"
   , "tailrec"

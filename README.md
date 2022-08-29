@@ -1,18 +1,24 @@
-# purescript-tree-rose
-
-[![Build status](https://img.shields.io/travis/jordanmartinez/purescript-tree-rose.svg)](https://travis-ci.com/jordanmartinez/purescript-tree-rose)
+# purescript-yoga-tree
 
 Multi-way trees (Rose Trees) with Zippers.
 
-This is a maintained fork of `purescript-tree`.
+This is a fork of `purescript-tree-rose` that uses `Array`s instead of `List`s.
 
 ## Installation
 
 ```
-{ tree-rose =
-    { dependencies = [ "prelude", "lists", "free" ]
+{ yoga-tree =
+    { dependencies =
+      [ "arrays"
+      , "control"
+      , "foldable-traversable"
+      , "free"
+      , "maybe"
+      , "prelude"
+      , "tailrec"
+      ]
     , version = "master"
-    , repo = "https://github.com/JordanMartinez/purescript-tree-rose.git"
+    , repo = "https://github.com/rowtype-yoga/purescript-yoga-tree.git"
     }
 }
 
@@ -20,4 +26,4 @@ This is a maintained fork of `purescript-tree`.
 
 ## Documentation
 
-Module documentation is [published on Pursuit](http://pursuit.purescript.org/packages/purescript-tree).
+Module documentation is [published on Pursuit](http://pursuit.purescript.org/packages/purescript-yoga-tree).
