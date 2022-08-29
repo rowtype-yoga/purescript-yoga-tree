@@ -1,7 +1,7 @@
 {
-  "name": "purescript-tree",
+  "name": "purescript-yoga-tree",
   "version": "4.0.0",
-  "description": "A Tree data structure inspired by haskell's Data.Tree",
+  "description": "A Tree data structure inspired by Haskell's Data.Tree",
   "main": "index.js",
   "author": "Daniel Fortes",
   "license": "MIT"

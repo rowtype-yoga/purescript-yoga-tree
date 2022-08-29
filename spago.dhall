@@ -3,7 +3,8 @@
 , repository = "https://github.com/jordanmartinez/purescript-tree-rose"
 , name = "tree-rose"
 , dependencies =
-  [ "control"
+  [ "arrays"
+  , "control"
   , "foldable-traversable"
   , "free"
   , "lists"
