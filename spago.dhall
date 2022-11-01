@@ -1,7 +1,7 @@
 { sources = [ "src/**/*.purs" ]
 , license = "MIT"
 , repository = "https://github.com/jordanmartinez/purescript-tree-rose"
-, name = "tree-rose"
+, name = "yoga-tree"
 , dependencies =
   [ "arrays"
   , "control"
