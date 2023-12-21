@@ -78,7 +78,7 @@ last l@(Loc r) = case uncons (reverse r.after) of
     Loc
       $
         { node: c
-        , before: cs <> r.before
+        , before: cs <> r.node : r.before
         , after: []
         , parents: r.parents
         }
