@@ -6,13 +6,15 @@ import Control.Comonad.Cofree (head, (:<))
 import Data.Maybe (Maybe(..), fromJust)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
+import Effect.Class (liftEffect)
+import Effect.Console (log)
 import Partial.Unsafe (unsafePartial)
 import Test.Spec (describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter (consoleReporter)
 import Test.Spec.Runner (runSpec)
-import Yoga.Tree (Tree, leaf, scanTree, showTree)
-import Yoga.Tree.Zipper (down, findDownWhere, findFromRoot, findUp, flattenLocDepthFirst, fromTree, modifyValue, next, toTree, value)
+import Yoga.Tree (Tree, leaf, mkLeaf, scanTree, showTree)
+import Yoga.Tree.Zipper (down, findDownWhere, findFromRoot, findUp, firstChild, flattenLocDepthFirst, fromTree, insertAfter, lastChild, modifyValue, next, toTree, value)
 
 newtype SpecTree a = SpecTree (Tree a)
 
@@ -106,21 +108,75 @@ main = launchAff_ $ runSpec [ consoleReporter ] do
       SpecTree root' `shouldEqual` SpecTree result
       SpecTree root'' `shouldEqual` SpecTree result'
 
-  -- it "Insert" do
+    it "Insert" do
 
-  --   let root1 = unsafePartial $ toTree $ insertAfter (mkLeaf 100) (fromJust $ down root)
-  --   let root2 = unsafePartial $ toTree $ insertAfter (mkLeaf 100) (fromJust $ (down root) >>= next >>= next >>= down >>= next >>= down)
-  --   let root3 = unsafePartial $ toTree $ insertAfter (mkLeaf 100) (fromJust $ (firstChild root))
-  --   let root4 = unsafePartial $ toTree $ insertAfter (mkLeaf 100) (fromJust $ (lastChild root))
+      let root1 = unsafePartial $ toTree $ insertAfter (mkLeaf 100) (fromJust $ down root)
+      let root2 = unsafePartial $ toTree $ insertAfter (mkLeaf 100) (fromJust $ (down root) >>= next >>= next >>= down >>= next >>= down)
+      let root3 = unsafePartial $ toTree $ insertAfter (mkLeaf 100) (fromJust $ (firstChild root))
+      let root4 = unsafePartial $ toTree $ insertAfter (mkLeaf 100) (fromJust $ (lastChild root))
 
-  --   let result1 = 1 :< []
-  --   let result2 = 1 :< []
-  --   let result3 = 1 :< []
-  --   let result4 = 1 :< []
-  --   shouldEqual (eq root1 result1) true
-  --   shouldEqual (eq root2 result2) true
-  --   shouldEqual (eq root3 result3) true
-  --   shouldEqual (eq root4 result4) true
+      let result1 =
+              1 :<
+                [ (2 :< [])
+                , (100 :< [])
+                , (3 :< [])
+                , (4 :<
+                    [ (5 :< [])
+                    , (6 :<
+                        [7 :< []])
+                    , (8 :< [])
+                    ]
+                  )
+                ]
+
+      let result2 =
+              1 :<
+                [ (2 :< [])
+                , (3 :< [])
+                , (4 :<
+                    [ (5 :< [])
+                    , (6 :<
+                        [ (7 :< [])
+                        , (100 :< [])
+                        ])
+                    , (8 :< [])
+                    ]
+                  )
+                ]
+      let result3 =
+              1 :<
+                [ (2 :< [])
+                , (100 :< [])
+                , (3 :< [])
+                , (4 :<
+                    [ (5 :< [])
+                    , (6 :<
+                           [(7 :< [])
+                           ]
+                      )
+                    , (8 :< [])
+                    ]
+                  )
+                ]
+      let result4 =
+              1 :<
+                [ (2 :< [])
+                , (3 :< [])
+                , (4 :<
+                    [  (5 :< [])
+                    , (6 :<
+                        [ 7 :< [] ])
+                    , (8 :< [])
+                    ]
+                  )
+                , (100 :< [])
+                ]
+
+
+      shouldEqual (eq root1 result1) true
+      shouldEqual (eq root2 result2) true
+      shouldEqual (eq root3 result3) true
+      shouldEqual (eq root4 result4) true
 
   it "Should findDownWhere with single node" do
     let tree = 1 :< []
